@@ -5,6 +5,9 @@ import 'package:random/page/generators/dice_roller.dart';
 import 'package:random/page/generators/coin_flip.dart';
 import 'package:random/page/generators/spinning_wheel.dart';
 import 'package:random/page/generators/username.dart';
+import 'package:random/page/generators/telegram_theme.dart';
+import 'package:random/page/generators/quick_tiles.dart';
+import 'package:random/page/generators/pomodoro_timer.dart';
 
 class GeneratorsTab extends StatelessWidget {
   const GeneratorsTab({super.key});
@@ -189,6 +192,97 @@ class GeneratorsTab extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const SpinningWheelPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // Utilities Section
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: theme.colorScheme.outlineVariant,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            color: theme.colorScheme.surface,
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.build_outlined,
+                      color: theme.colorScheme.primary,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Utilities',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(height: 1, color: theme.colorScheme.outlineVariant),
+              // _GeneratorListTile(
+              //   title: 'Dynamic Telegram Theme',
+              //   subtitle: 'Generate Telegram themes',
+              //   icon: Icons.palette_outlined,
+              //   color: Colors.cyan,
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const TelegramThemePage(),
+              //       ),
+              //     );
+              //   },
+              // ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
+                title: 'Quick Tiles',
+                subtitle: 'Manage quick setting tiles',
+                icon: Icons.dashboard_customize_outlined,
+                color: Colors.indigo,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuickTilesPage(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
+                title: 'Pomodoro Timer',
+                subtitle: 'Focus and productivity timer',
+                icon: Icons.timer_outlined,
+                color: Colors.red,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PomodoroTimerPage(),
                     ),
                   );
                 },
