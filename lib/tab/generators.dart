@@ -235,20 +235,20 @@ class GeneratorsTab extends StatelessWidget {
                 ),
               ),
               Divider(height: 1, color: theme.colorScheme.outlineVariant),
-              // _GeneratorListTile(
-              //   title: 'Dynamic Telegram Theme',
-              //   subtitle: 'Generate Telegram themes',
-              //   icon: Icons.palette_outlined,
-              //   color: Colors.cyan,
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const TelegramThemePage(),
-              //       ),
-              //     );
-              //   },
-              // ),
+              _GeneratorListTile(
+                title: 'Dynamic Telegram Theme',
+                subtitle: 'Generate Telegram themes',
+                icon: Icons.palette_outlined,
+                color: Colors.cyan,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TelegramMonetApp(),
+                    ),
+                  );
+                },
+              ),
               Divider(
                 height: 1,
                 indent: 72,

@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String get _currentTitle {
     switch (_navIndex) {
       case 0:
-        return 'Random Generators';
+        return 'Random';
       // case 1:
         // return 'Wheel';
       default:

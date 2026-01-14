@@ -19,41 +19,6 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
       icon: Icons.volume_up_outlined,
       color: Colors.deepPurple,
     ),
-    QuickTile(
-      id: 'dice_roller',
-      title: 'Dice Roller',
-      subtitle: 'Quick access to roll dice',
-      icon: Icons.casino_outlined,
-      color: Colors.orange,
-    ),
-    QuickTile(
-      id: 'coin_flip',
-      title: 'Coin Flip',
-      subtitle: 'Flip a coin instantly',
-      icon: Icons.monetization_on_outlined,
-      color: Colors.amber,
-    ),
-    QuickTile(
-      id: 'random_number',
-      title: 'Random Number',
-      subtitle: 'Generate random numbers',
-      icon: Icons.numbers,
-      color: Colors.blue,
-    ),
-    QuickTile(
-      id: 'password_generator',
-      title: 'Password Generator',
-      subtitle: 'Generate secure passwords',
-      icon: Icons.lock_outline,
-      color: Colors.purple,
-    ),
-    QuickTile(
-      id: 'pomodoro_timer',
-      title: 'Pomodoro Timer',
-      subtitle: 'Quick start focus timer',
-      icon: Icons.timer_outlined,
-      color: Colors.red,
-    ),
   ];
 
   Set<String> activeTiles = {};
@@ -76,7 +41,6 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
       setState(() {
         isLoading = false;
       });
-      // Running on non-Android or method not implemented
       debugPrint('Failed to load active tiles: $e');
     }
   }

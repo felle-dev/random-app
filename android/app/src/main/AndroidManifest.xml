@@ -23,66 +23,10 @@
             </intent-filter>
         </activity>
 
-        <!-- Quick Settings Tiles -->
          <service
             android:name=".tiles.VolumeControlTileService"
             android:icon="@mipmap/launcher_icon"
             android:label="Volume Control"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
-            </intent-filter>
-        </service>
-        
-        <service
-            android:name=".tiles.DiceRollerTileService"
-            android:icon="@mipmap/launcher_icon"
-            android:label="Dice Roller"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".tiles.CoinFlipTileService"
-            android:icon="@mipmap/launcher_icon"
-            android:label="Coin Flip"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".tiles.RandomNumberTileService"
-            android:icon="@mipmap/launcher_icon"
-            android:label="Random Number"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".tiles.PasswordGeneratorTileService"
-            android:icon="@mipmap/launcher_icon"
-            android:label="Password Generator"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".tiles.PomodoroTimerTileService"
-            android:icon="@mipmap/launcher_icon"
-            android:label="Pomodoro Timer"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
             <intent-filter>

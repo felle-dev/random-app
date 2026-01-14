@@ -1,5 +1,6 @@
 package com.example.random.tiles
 
+import android.graphics.drawable.Icon
 import android.media.AudioManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
@@ -11,6 +12,7 @@ class VolumeControlTileService : TileService() {
         qsTile?.apply {
             state = Tile.STATE_ACTIVE
             label = "Volume"
+            icon = Icon.createWithResource(applicationContext, android.R.drawable.ic_lock_silent_mode_off)
             updateTile()
         }
     }

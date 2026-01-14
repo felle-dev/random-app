@@ -81,7 +81,7 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
     });
 
     final random = Random();
-    final spins = 5 + random.nextDouble() * 3; // 5-8 full rotations
+    final spins = 5 + random.nextDouble() * 3;
     final extraRotation = random.nextDouble() * 2 * pi;
     final endRotation = _currentRotation + (spins * 2 * pi) + extraRotation;
 
@@ -89,7 +89,7 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
         .animate(
           CurvedAnimation(
             parent: _animationController,
-            curve: Curves.easeOutQuart, // Smoother, slower deceleration
+            curve: Curves.easeOutQuart,
           ),
         );
 
@@ -103,7 +103,6 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
         _result = _options[selectedIndex];
       });
 
-      // Show result in dialog
       _showResultDialog(_options[selectedIndex]);
     });
   }
@@ -223,127 +222,170 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Spinning Wheel')),
-      body: SingleChildScrollView(
+      body: ListView(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            // Arrow indicator (at top, pointing down)
-            Center(
-              child: CustomPaint(
-                size: const Size(40, 40),
-                painter: ArrowPainter(color: theme.colorScheme.primary),
+        children: [
+          // Wheel Section
+          Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: theme.colorScheme.outlineVariant,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              color: theme.colorScheme.surface,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  // Arrow indicator
+                  CustomPaint(
+                    size: const Size(40, 40),
+                    painter: ArrowPainter(color: theme.colorScheme.primary),
+                  ),
+                  const SizedBox(height: 10),
+                  // Wheel
+                  SizedBox(
+                    width: 300,
+                    height: 300,
+                    child: AnimatedBuilder(
+                      animation: _animationController,
+                      builder: (context, child) {
+                        return Transform.rotate(
+                          angle: _isSpinning
+                              ? _animation.value
+                              : _currentRotation,
+                          child: CustomPaint(
+                            size: const Size(300, 300),
+                            painter: WheelPainter(
+                              options: _options,
+                              colors: _generateColors(_options.length),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 10),
-            // Wheel
-            Center(
-              child: SizedBox(
-                width: 300,
-                height: 300,
-                child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (context, child) {
-                    return Transform.rotate(
-                      angle: _isSpinning ? _animation.value : _currentRotation,
-                      child: CustomPaint(
-                        size: const Size(300, 300),
-                        painter: WheelPainter(
-                          options: _options,
-                          colors: _generateColors(_options.length),
+          ),
+          const SizedBox(height: 24),
+
+          // Spin Button
+          FilledButton.icon(
+            onPressed: _isSpinning ? null : _spinWheel,
+            icon: const Icon(Icons.refresh),
+            label: Text(_isSpinning ? 'Spinning...' : 'Spin the Wheel'),
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Options Section
+          Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: theme.colorScheme.outlineVariant,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              color: theme.colorScheme.surface,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.list_alt_outlined,
+                        color: theme.colorScheme.primary,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Options',
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Spin button
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: FilledButton.icon(
-                onPressed: _isSpinning ? null : _spinWheel,
-                icon: const Icon(Icons.refresh),
-                label: Text(_isSpinning ? 'Spinning...' : 'Spin the Wheel'),
-              ),
-            ),
-            const SizedBox(height: 30),
-            // Options editor
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Options',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                      const Spacer(),
+                      FilledButton.tonalIcon(
+                        onPressed: () {
+                          setState(() {
+                            _isEditing = !_isEditing;
+                            if (!_isEditing) {
+                              _optionsController.text = _options.join('\n');
+                            }
+                          });
+                        },
+                        icon: Icon(_isEditing ? Icons.close : Icons.edit),
+                        label: Text(_isEditing ? 'Cancel' : 'Edit'),
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
                           ),
                         ),
-                        FilledButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              _isEditing = !_isEditing;
-                              if (!_isEditing) {
-                                // Restore from current options if cancelled
-                                _optionsController.text = _options.join('\n');
-                              }
-                            });
-                          },
-                          icon: Icon(_isEditing ? Icons.close : Icons.edit),
-                          label: Text(_isEditing ? 'Cancel' : 'Edit'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    if (_isEditing) ...[
-                      TextField(
-                        controller: _optionsController,
-                        maxLines: 10,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter options (one per line)',
-                          border: OutlineInputBorder(),
-                          helperText:
-                              'Each line will be one option on the wheel',
-                        ),
                       ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton.icon(
-                          onPressed: _updateOptions,
-                          icon: const Icon(Icons.check),
-                          label: const Text('Save Options'),
-                        ),
-                      ),
-                    ] else ...[
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.surfaceContainerHighest,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
+                    ],
+                  ),
+                ),
+                Divider(height: 1, color: theme.colorScheme.outlineVariant),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: _isEditing
+                      ? Column(
+                          children: [
+                            TextField(
+                              controller: _optionsController,
+                              maxLines: 10,
+                              decoration: const InputDecoration(
+                                hintText: 'Enter options (one per line)',
+                                border: OutlineInputBorder(),
+                                helperText:
+                                    'Each line will be one option on the wheel',
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton.icon(
+                                onPressed: _updateOptions,
+                                icon: const Icon(Icons.check),
+                                label: const Text('Save Options'),
+                                style: FilledButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Current options (${_options.length}):',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 12),
                             ..._options.asMap().entries.map((entry) {
                               final index = entry.key;
                               final option = entry.value;
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                  vertical: 4,
+                                  vertical: 6,
                                 ),
                                 child: Row(
                                   children: [
@@ -355,13 +397,17 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
                                           _options.length,
                                         )[index],
                                         shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 2,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Text(
                                         option,
-                                        style: theme.textTheme.bodyMedium,
+                                        style: theme.textTheme.bodyLarge,
                                       ),
                                     ),
                                   ],
@@ -370,14 +416,12 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
                             }).toList(),
                           ],
                         ),
-                      ),
-                    ],
-                  ],
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 100),
+        ],
       ),
     );
   }
@@ -485,15 +529,13 @@ class ArrowPainter extends CustomPainter {
 
     final path = Path();
 
-    // Draw triangle pointing down
-    path.moveTo(size.width / 2, size.height); // Bottom point
-    path.lineTo(0, 0); // Top left
-    path.lineTo(size.width, 0); // Top right
+    path.moveTo(size.width / 2, size.height);
+    path.lineTo(0, 0);
+    path.lineTo(size.width, 0);
     path.close();
 
     canvas.drawPath(path, paint);
 
-    // Draw white border
     final borderPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke

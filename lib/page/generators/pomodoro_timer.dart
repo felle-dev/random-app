@@ -243,12 +243,12 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pomodoro Timer'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: _showSettingsDialog,
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.settings_outlined),
+        //     onPressed: _showSettingsDialog,
+        //   ),
+        // ],
       ),
       body: SafeArea(
         child: Padding(

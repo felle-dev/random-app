@@ -48,11 +48,6 @@ class MainActivity : FlutterActivity() {
         val activeTiles = mutableListOf<String>()
         val tileMap = mapOf(
             "volume_control" to ".tiles.VolumeControlTileService",
-            "dice_roller" to ".tiles.DiceRollerTileService",
-            "coin_flip" to ".tiles.CoinFlipTileService",
-            "random_number" to ".tiles.RandomNumberTileService",
-            "password_generator" to ".tiles.PasswordGeneratorTileService",
-            "pomodoro_timer" to ".tiles.PomodoroTimerTileService"
         )
 
         val packageManager = packageManager
@@ -70,11 +65,6 @@ class MainActivity : FlutterActivity() {
     private fun enableTile(tileId: String, enable: Boolean) {
         val serviceNameMap = mapOf(
             "volume_control" to ".tiles.VolumeControlTileService",
-            "dice_roller" to ".tiles.DiceRollerTileService",
-            "coin_flip" to ".tiles.CoinFlipTileService",
-            "random_number" to ".tiles.RandomNumberTileService",
-            "password_generator" to ".tiles.PasswordGeneratorTileService",
-            "pomodoro_timer" to ".tiles.PomodoroTimerTileService"
         )
 
         val serviceName = serviceNameMap[tileId] ?: return
