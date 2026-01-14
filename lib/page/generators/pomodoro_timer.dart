@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:vibration/vibration.dart';
 
 class PomodoroTimerPage extends StatefulWidget {
   const PomodoroTimerPage({super.key});
@@ -63,8 +65,35 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
     });
   }
 
-  void _onTimerComplete() {
+  Future<void> _playSystemAlarmSound() async {
+    try {
+      // Play the system notification/alarm sound
+      await SystemSound.play(SystemSoundType.alert);
+    } catch (e) {
+      debugPrint('Error playing system sound: $e');
+    }
+  }
+
+  Future<void> _triggerAlarmNotification() async {
+    // Play system alarm sound
+    await _playSystemAlarmSound();
+
+    // Vibrate device
+    if (await Vibration.hasVibrator() ?? false) {
+      // Vibrate in a pattern: [wait, vibrate, wait, vibrate]
+      Vibration.vibrate(
+        pattern: [0, 500, 200, 500, 200, 500],
+        intensities: [0, 255, 0, 255, 0, 255],
+      );
+    }
+  }
+
+  void _onTimerComplete() async {
     _timer?.cancel();
+
+    // Trigger alarm notification (sound + vibration)
+    await _triggerAlarmNotification();
+
     setState(() {
       _isRunning = false;
       if (_isWorkSession) {
@@ -243,12 +272,12 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pomodoro Timer'),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.settings_outlined),
-        //     onPressed: _showSettingsDialog,
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: _showSettingsDialog,
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -324,6 +353,25 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
               ),
 
               const SizedBox(height: 32),
+
+              // Pomodoro Counter
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceVariant,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  'Completed: $_completedPomodoros 🍅',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
 
               // Control Buttons
               Row(

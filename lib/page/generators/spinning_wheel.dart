@@ -11,10 +11,36 @@ class SpinningWheelPage extends StatefulWidget {
 class _SpinningWheelPageState extends State<SpinningWheelPage>
     with SingleTickerProviderStateMixin {
   final List<String> _options = [
-    'Option 1',
-    'Option 2',
-    'Option 3',
-    'Option 4',
+    'Sheep',
+    'Goat',
+    'Lamp',
+    'Chair',
+    'Table',
+    'Pillow',
+    'Blanket',
+    'Mop',
+    'Broom',
+    'Vacuum',
+    'Blender',
+    'Microwave',
+    'Fridge',
+    'Teapot',
+    'Kettle',
+    'Umbrella',
+    'Backpack',
+    'Shoe',
+    'Hat',
+    'Glove',
+    'Scarf',
+    'Balloon',
+    'Crayon',
+    'Pencil',
+    'Eraser',
+    'Stapler',
+    'Scissors',
+    'Tape',
+    'Button',
+    'Zipper',
   ];
   final TextEditingController _optionsController = TextEditingController();
   late AnimationController _animationController;
@@ -380,40 +406,46 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
                               ),
                             ),
                             const SizedBox(height: 12),
-                            ..._options.asMap().entries.map((entry) {
-                              final index = entry.key;
-                              final option = entry.value;
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 6,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: _generateColors(
-                                          _options.length,
-                                        )[index],
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: Colors.white,
-                                          width: 2,
+                            Container(
+                              constraints: const BoxConstraints(maxHeight: 300),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: _options.length,
+                                itemBuilder: (context, index) {
+                                  final option = _options[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 6,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 24,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            color: _generateColors(
+                                              _options.length,
+                                            )[index],
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                              width: 2,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Text(
+                                            option,
+                                            style: theme.textTheme.bodyLarge,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Text(
-                                        option,
-                                        style: theme.textTheme.bodyLarge,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                 ),
@@ -476,28 +508,50 @@ class WheelPainter extends CustomPainter {
         borderPaint,
       );
 
-      // Draw text
+      // Draw text following the arc of the wheel
       final textAngle = startAngle + sectionAngle / 2;
-      final textRadius = radius * 0.65;
+
+      // Calculate appropriate font size based on number of options
+      double fontSize = 16;
+      double textRadius = radius * 0.7;
+
+      if (options.length > 20) {
+        fontSize = 8;
+        textRadius = radius * 0.75;
+      } else if (options.length > 15) {
+        fontSize = 10;
+        textRadius = radius * 0.72;
+      } else if (options.length > 10) {
+        fontSize = 12;
+        textRadius = radius * 0.70;
+      } else if (options.length > 8) {
+        fontSize = 14;
+        textRadius = radius * 0.68;
+      }
+
       final textX = center.dx + textRadius * cos(textAngle);
       final textY = center.dy + textRadius * sin(textAngle);
 
       final textPainter = TextPainter(
         text: TextSpan(
           text: options[i],
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: fontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
         textDirection: TextDirection.ltr,
       );
+
       textPainter.layout();
 
       canvas.save();
       canvas.translate(textX, textY);
-      canvas.rotate(textAngle + pi / 2);
+
+      // Just rotate to match the section angle!
+      canvas.rotate(textAngle);
+
       textPainter.paint(
         canvas,
         Offset(-textPainter.width / 2, -textPainter.height / 2),
