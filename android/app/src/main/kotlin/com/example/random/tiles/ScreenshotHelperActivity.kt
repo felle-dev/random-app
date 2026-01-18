@@ -15,7 +15,7 @@ class ScreenshotHelperActivity : Activity() {
 
     companion object {
         private const val TAG = "ScreenshotHelper"
-        private const val SCREENSHOT_DELAY = 2000L // 2 seconds
+        private const val SCREENSHOT_DELAY = 1000L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
