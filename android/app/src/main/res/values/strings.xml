@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="accessibility_service_description"
+    >Allows the app to take screenshots using quick settings tiles</string
+  >
+</resources>

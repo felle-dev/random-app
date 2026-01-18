@@ -19,6 +19,13 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
       icon: Icons.volume_up_outlined,
       color: Colors.deepPurple,
     ),
+    QuickTile(
+      id: 'screenshot',
+      title: 'Screenshot',
+      subtitle: 'Take a screenshot instantly',
+      icon: Icons.screenshot_outlined,
+      color: Colors.blue,
+    ),
   ];
 
   Set<String> activeTiles = {};
@@ -47,6 +54,19 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
 
   Future<void> _toggleTile(String tileId, bool isActive) async {
     try {
+      // Special handling for screenshot tile
+      if (tileId == 'screenshot' && isActive) {
+        // Check if accessibility is enabled
+        final bool accessibilityEnabled = await _checkAccessibility();
+
+        if (!accessibilityEnabled) {
+          if (mounted) {
+            _showAccessibilityDialog();
+          }
+          return;
+        }
+      }
+
       if (isActive) {
         await platform.invokeMethod('addTile', {'tileId': tileId});
         setState(() {
@@ -55,8 +75,10 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text(
-                'Tile added! Pull down quick settings to see it.',
+              content: Text(
+                tileId == 'screenshot'
+                    ? 'Screenshot tile added! Make sure accessibility is enabled.'
+                    : 'Tile added! Pull down quick settings to see it.',
               ),
               action: SnackBarAction(label: 'OK', onPressed: () {}),
             ),
@@ -83,6 +105,57 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
         );
       }
       debugPrint('Failed to toggle tile: $e');
+    }
+  }
+
+  Future<bool> _checkAccessibility() async {
+    try {
+      final result = await platform.invokeMethod('checkAccessibility');
+      return result as bool? ?? false;
+    } catch (e) {
+      debugPrint('Failed to check accessibility: $e');
+      return false;
+    }
+  }
+
+  void _showAccessibilityDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.accessibility_new),
+            SizedBox(width: 8),
+            Text('Enable Accessibility'),
+          ],
+        ),
+        content: const Text(
+          'Screenshot functionality requires accessibility permission. '
+          'Would you like to enable it now?\n\n'
+          'In Settings, find "Random" under Accessibility and turn it on.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _openAccessibilitySettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _openAccessibilitySettings() async {
+    try {
+      await platform.invokeMethod('openAccessibilitySettings');
+    } catch (e) {
+      debugPrint('Failed to open accessibility settings: $e');
     }
   }
 
@@ -118,7 +191,7 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
               Text('4. Drag the tiles to your quick settings'),
               SizedBox(height: 16),
               Text(
-                'Note: This feature is only available on Android 7.0 (Nougat) and above.',
+                'Note: Screenshot tile requires Accessibility permission (Android 9.0+) and Quick Settings Tiles require Android 7.0+.',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
               ),
             ],
@@ -222,6 +295,36 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
                 ),
                 const SizedBox(height: 24),
 
+                // Accessibility Notice (only show if screenshot tile exists)
+                if (availableTiles.any((tile) => tile.id == 'screenshot'))
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.blue.shade200, width: 1),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.accessibility_new,
+                          color: Colors.blue.shade700,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Screenshot tile requires Accessibility permission',
+                            style: TextStyle(
+                              color: Colors.blue.shade900,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: 16),
+
                 // Instructions Card
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -292,7 +395,7 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
             ),
           ),
           const SizedBox(width: 12),
-          Text(text),
+          Expanded(child: Text(text)),
         ],
       ),
     );

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
   <application
     android:label="Random"
     android:name="${applicationName}"
@@ -26,6 +29,18 @@
       </intent-filter>
     </activity>
 
+    <!-- Helper activity for screenshot - looks good! -->
+    <activity
+      android:name=".tiles.ScreenshotHelperActivity"
+      android:theme="@android:style/Theme.Translucent.NoTitleBar"
+      android:excludeFromRecents="true"
+      android:exported="false"
+      android:noHistory="true"
+      android:taskAffinity=""
+      android:launchMode="singleInstance"
+    />
+
+    <!-- Volume Control Tile -->
     <service
       android:name=".tiles.VolumeControlTileService"
       android:icon="@mipmap/launcher_icon"
@@ -36,6 +51,35 @@
       <intent-filter>
         <action android:name="android.service.quicksettings.action.QS_TILE" />
       </intent-filter>
+    </service>
+
+    <!-- Screenshot Tile -->
+    <service
+      android:name=".tiles.ScreenshotTileService"
+      android:enabled="true"
+      android:exported="true"
+      android:icon="@mipmap/launcher_icon"
+      android:label="Screenshot"
+      android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+    >
+      <intent-filter>
+        <action android:name="android.service.quicksettings.action.QS_TILE" />
+      </intent-filter>
+    </service>
+
+    <!-- Accessibility Service for Screenshot -->
+    <service
+      android:name=".CustomAccessibilityService"
+      android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+      android:exported="true"
+    >
+      <intent-filter>
+        <action android:name="android.accessibilityservice.AccessibilityService" />
+      </intent-filter>
+      <meta-data
+        android:name="android.accessibilityservice"
+        android:resource="@xml/accessibility_service_config"
+      />
     </service>
 
     <meta-data android:name="flutterEmbedding" android:value="2" />
