@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:random/page/generators/device.dart';
 import 'package:random/page/generators/password.dart';
 import 'package:random/page/generators/random_number.dart';
 import 'package:random/page/generators/dice_roller.dart';
@@ -81,6 +82,20 @@ class GeneratorsTab extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const UsernameGeneratorPage(),
+                    ),
+                  );
+                },
+              ),
+              _GeneratorListTile(
+                title: 'Device Name Generator',
+                subtitle: 'Generate Random Device Names',
+                icon: Icons.phone_android_outlined,
+                color: Colors.teal,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DeviceGeneratorPage(),
                     ),
                   );
                 },
