@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/generators/device.dart';
-import 'package:random/page/generators/email.dart';
-import 'package:random/page/generators/password.dart';
-import 'package:random/page/generators/username.dart';
+import 'package:random/page/generators/exif_eraser.dart';
+import 'package:random/page/generators/quick_tiles.dart';
+import 'package:random/page/generators/pomodoro_timer.dart';
 
-class GeneratorsTab extends StatelessWidget {
-  const GeneratorsTab({super.key});
+class UtilitiesTab extends StatelessWidget {
+  const UtilitiesTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,34 +26,15 @@ class GeneratorsTab extends StatelessWidget {
           child: Column(
             children: [
               _GeneratorListTile(
-                title: 'Password Generator',
-                subtitle: 'Create secure passwords',
-                icon: Icons.lock_outline,
-                color: Colors.purple,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PasswordGeneratorPage(),
-                    ),
-                  );
-                },
-              ),
-              Divider(
-                height: 1,
-                indent: 72,
-                color: theme.colorScheme.outlineVariant,
-              ),
-              _GeneratorListTile(
-                title: 'Email Generator',
-                subtitle: 'Generate random email',
-                icon: Icons.email_outlined,
+                title: 'Quick Tiles',
+                subtitle: 'Manage quick setting tiles',
+                icon: Icons.dashboard_customize_outlined,
                 color: Colors.indigo,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EmailGeneratorPage(),
+                      builder: (context) => const QuickTilesPage(),
                     ),
                   );
                 },
@@ -65,15 +45,15 @@ class GeneratorsTab extends StatelessWidget {
                 color: theme.colorScheme.outlineVariant,
               ),
               _GeneratorListTile(
-                title: 'Username Generator',
-                subtitle: 'Generate random usernames',
-                icon: Icons.person_outline,
-                color: Colors.teal,
+                title: 'Pomodoro Timer',
+                subtitle: 'Focus and productivity timer',
+                icon: Icons.timer_outlined,
+                color: Colors.red,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UsernameGeneratorPage(),
+                      builder: (context) => const PomodoroTimerPage(),
                     ),
                   );
                 },
@@ -84,15 +64,15 @@ class GeneratorsTab extends StatelessWidget {
                 color: theme.colorScheme.outlineVariant,
               ),
               _GeneratorListTile(
-                title: 'Device Name Generator',
-                subtitle: 'Generate Random Device Names',
-                icon: Icons.phone_android_outlined,
-                color: Colors.blueGrey,
+                title: 'Exif Eraser',
+                subtitle: 'Erase EXIF data from images',
+                icon: Icons.photo_camera_back_outlined,
+                color: Colors.lightBlue,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DeviceGeneratorPage(),
+                      builder: (context) => const ExifEraserPage(),
                     ),
                   );
                 },

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/generators/device.dart';
-import 'package:random/page/generators/email.dart';
-import 'package:random/page/generators/password.dart';
-import 'package:random/page/generators/username.dart';
+import 'package:random/page/generators/random_number.dart';
+import 'package:random/page/generators/dice_roller.dart';
+import 'package:random/page/generators/coin_flip.dart';
+import 'package:random/page/generators/spinning_wheel.dart';
 
-class GeneratorsTab extends StatelessWidget {
-  const GeneratorsTab({super.key});
+class RandomToolsTab extends StatelessWidget {
+  const RandomToolsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +27,15 @@ class GeneratorsTab extends StatelessWidget {
           child: Column(
             children: [
               _GeneratorListTile(
-                title: 'Password Generator',
-                subtitle: 'Create secure passwords',
-                icon: Icons.lock_outline,
-                color: Colors.purple,
+                title: 'Random Number',
+                subtitle: 'Generate random numbers',
+                icon: Icons.numbers,
+                color: Colors.blue,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PasswordGeneratorPage(),
+                      builder: (context) => const RandomNumberPage(),
                     ),
                   );
                 },
@@ -46,15 +46,15 @@ class GeneratorsTab extends StatelessWidget {
                 color: theme.colorScheme.outlineVariant,
               ),
               _GeneratorListTile(
-                title: 'Email Generator',
-                subtitle: 'Generate random email',
-                icon: Icons.email_outlined,
-                color: Colors.indigo,
+                title: 'Dice Roller',
+                subtitle: 'Roll virtual dice',
+                icon: Icons.casino_outlined,
+                color: Colors.orange,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EmailGeneratorPage(),
+                      builder: (context) => const DiceRollerPage(),
                     ),
                   );
                 },
@@ -65,15 +65,15 @@ class GeneratorsTab extends StatelessWidget {
                 color: theme.colorScheme.outlineVariant,
               ),
               _GeneratorListTile(
-                title: 'Username Generator',
-                subtitle: 'Generate random usernames',
-                icon: Icons.person_outline,
-                color: Colors.teal,
+                title: 'Coin Flip',
+                subtitle: 'Flip a virtual coin',
+                icon: Icons.monetization_on_outlined,
+                color: Colors.amber,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UsernameGeneratorPage(),
+                      builder: (context) => const CoinFlipPage(),
                     ),
                   );
                 },
@@ -84,15 +84,15 @@ class GeneratorsTab extends StatelessWidget {
                 color: theme.colorScheme.outlineVariant,
               ),
               _GeneratorListTile(
-                title: 'Device Name Generator',
-                subtitle: 'Generate Random Device Names',
-                icon: Icons.phone_android_outlined,
-                color: Colors.blueGrey,
+                title: 'Spinning Wheel',
+                subtitle: 'Spin the wheel to decide',
+                icon: Icons.album_outlined,
+                color: Colors.pink,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DeviceGeneratorPage(),
+                      builder: (context) => const SpinningWheelPage(),
                     ),
                   );
                 },

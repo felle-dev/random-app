@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show File;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,8 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
-// For web download
-import 'dart:html' as html;
+
+import 'package:universal_html/html.dart' as html;
 
 class ExifEraserPage extends StatefulWidget {
   const ExifEraserPage({super.key});
@@ -209,12 +209,6 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       try {
         final blob = html.Blob([_webImageBytes!]);
         final url = html.Url.createObjectUrlFromBlob(blob);
-        final anchor = html.AnchorElement(href: url)
-          ..setAttribute(
-            'download',
-            'exif_erased_${DateTime.now().millisecondsSinceEpoch}.jpg',
-          )
-          ..click();
         html.Url.revokeObjectUrl(url);
 
         if (mounted) {
