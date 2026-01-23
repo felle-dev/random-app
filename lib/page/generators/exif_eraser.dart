@@ -163,11 +163,12 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
         throw Exception('Failed to decode image');
       }
 
-      // Create a new image without EXIF data
-      final newImage = img.copyResize(image, width: image.width);
+      // Clear EXIF data explicitly
+      image.exif.clear();
 
-      // Encode as JPEG without metadata
-      final newBytes = img.encodeJpg(newImage);
+      // Encode as JPEG without any metadata
+      // The key is to encode directly without copyResize which may preserve metadata
+      final newBytes = img.encodeJpg(image, quality: 95);
 
       if (kIsWeb) {
         setState(() {
@@ -210,7 +211,6 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       try {
         final blob = html.Blob([_webProcessedBytes!]);
         final url = html.Url.createObjectUrlFromBlob(blob);
-        // ignore: unused_local_variable
         final anchor = html.AnchorElement(href: url)
           ..setAttribute(
             'download',
@@ -255,15 +255,29 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
           }
         }
 
-        await Gal.putImageBytes(
-          bytes,
-          name: "exif_erased_${DateTime.now().millisecondsSinceEpoch}",
-        );
+        // Save to "Random" album only on Android
+        if (Platform.isAndroid) {
+          await Gal.putImageBytes(
+            bytes,
+            album: "Random",
+            name: "exif_erased_${DateTime.now().millisecondsSinceEpoch}",
+          );
+        } else {
+          // iOS: save without album parameter
+          await Gal.putImageBytes(
+            bytes,
+            name: "exif_erased_${DateTime.now().millisecondsSinceEpoch}",
+          );
+        }
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Image saved to gallery!'),
+            SnackBar(
+              content: Text(
+                Platform.isAndroid
+                    ? 'Image saved to "Pictures/Random/"'
+                    : 'Image saved to gallery!',
+              ),
               duration: Duration(seconds: 3),
             ),
           );
