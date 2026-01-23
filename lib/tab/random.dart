@@ -10,27 +10,33 @@ class RandomToolsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    return ListView(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 16),
-      children: [
-        Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: theme.colorScheme.outlineVariant,
-              width: 1,
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          sliver: SliverGrid(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1.0,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
             ),
-            borderRadius: BorderRadius.circular(16),
-            color: theme.colorScheme.surface,
-          ),
-          child: Column(
-            children: [
-              _GeneratorListTile(
+            delegate: SliverChildListDelegate([
+              _RandomToolCard(
                 title: 'Random Number',
-                subtitle: 'Generate random numbers',
+                subtitle: 'Generate numbers',
                 icon: Icons.numbers,
-                color: Colors.blue,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.primaryContainer,
+                    colorScheme.primaryContainer.withOpacity(0.7),
+                  ],
+                ),
+                iconColor: colorScheme.onPrimaryContainer,
                 onTap: () {
                   Navigator.push(
                     context,
@@ -40,16 +46,19 @@ class RandomToolsTab extends StatelessWidget {
                   );
                 },
               ),
-              Divider(
-                height: 1,
-                indent: 72,
-                color: theme.colorScheme.outlineVariant,
-              ),
-              _GeneratorListTile(
+              _RandomToolCard(
                 title: 'Dice Roller',
                 subtitle: 'Roll virtual dice',
                 icon: Icons.casino_outlined,
-                color: Colors.orange,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.secondaryContainer,
+                    colorScheme.secondaryContainer.withOpacity(0.7),
+                  ],
+                ),
+                iconColor: colorScheme.onSecondaryContainer,
                 onTap: () {
                   Navigator.push(
                     context,
@@ -59,16 +68,19 @@ class RandomToolsTab extends StatelessWidget {
                   );
                 },
               ),
-              Divider(
-                height: 1,
-                indent: 72,
-                color: theme.colorScheme.outlineVariant,
-              ),
-              _GeneratorListTile(
+              _RandomToolCard(
                 title: 'Coin Flip',
                 subtitle: 'Flip a virtual coin',
                 icon: Icons.monetization_on_outlined,
-                color: Colors.amber,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.tertiaryContainer,
+                    colorScheme.tertiaryContainer.withOpacity(0.7),
+                  ],
+                ),
+                iconColor: colorScheme.onTertiaryContainer,
                 onTap: () {
                   Navigator.push(
                     context,
@@ -78,16 +90,19 @@ class RandomToolsTab extends StatelessWidget {
                   );
                 },
               ),
-              Divider(
-                height: 1,
-                indent: 72,
-                color: theme.colorScheme.outlineVariant,
-              ),
-              _GeneratorListTile(
+              _RandomToolCard(
                 title: 'Spinning Wheel',
-                subtitle: 'Spin the wheel to decide',
+                subtitle: 'Spin to decide',
                 icon: Icons.album_outlined,
-                color: Colors.pink,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.errorContainer,
+                    colorScheme.errorContainer.withOpacity(0.7),
+                  ],
+                ),
+                iconColor: colorScheme.onErrorContainer,
                 onTap: () {
                   Navigator.push(
                     context,
@@ -97,48 +112,79 @@ class RandomToolsTab extends StatelessWidget {
                   );
                 },
               ),
-            ],
+            ]),
           ),
         ),
-        const SizedBox(height: 100),
+        const SliverToBoxAdapter(child: SizedBox(height: 100)),
       ],
     );
   }
 }
 
-class _GeneratorListTile extends StatelessWidget {
+class _RandomToolCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
-  final Color color;
+  final Gradient gradient;
+  final Color iconColor;
   final VoidCallback onTap;
 
-  const _GeneratorListTile({
+  const _RandomToolCard({
     required this.title,
     required this.subtitle,
     required this.icon,
-    required this.color,
+    required this.gradient,
+    required this.iconColor,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        child: ListTile(
-          leading: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(24),
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: gradient,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: colorScheme.outlineVariant.withOpacity(0.3),
+              width: 1,
             ),
-            child: Icon(icon, color: color),
           ),
-          title: Text(title),
-          subtitle: Text(subtitle),
-          trailing: const Icon(Icons.chevron_right),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(child: Icon(icon, size: 48, color: iconColor)),
+                const Spacer(),
+                Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: iconColor,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: iconColor.withOpacity(0.8),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

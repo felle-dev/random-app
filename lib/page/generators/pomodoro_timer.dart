@@ -154,65 +154,73 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Timer Settings'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildSettingSlider(
-                'Work Duration',
-                tempWork,
-                1,
-                60,
-                (value) => tempWork = value,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            title: const Text('Timer Settings'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildSettingSlider('Work Duration', tempWork, 1, 60, (
+                    value,
+                  ) {
+                    setDialogState(() {
+                      tempWork = value;
+                    });
+                  }),
+                  const SizedBox(height: 16),
+                  _buildSettingSlider('Short Break', tempShortBreak, 1, 30, (
+                    value,
+                  ) {
+                    setDialogState(() {
+                      tempShortBreak = value;
+                    });
+                  }),
+                  const SizedBox(height: 16),
+                  _buildSettingSlider('Long Break', tempLongBreak, 5, 60, (
+                    value,
+                  ) {
+                    setDialogState(() {
+                      tempLongBreak = value;
+                    });
+                  }),
+                  const SizedBox(height: 16),
+                  _buildSettingSlider(
+                    'Pomodoros Until Long Break',
+                    tempPomodorosUntilLong,
+                    2,
+                    10,
+                    (value) {
+                      setDialogState(() {
+                        tempPomodorosUntilLong = value;
+                      });
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              _buildSettingSlider(
-                'Short Break',
-                tempShortBreak,
-                1,
-                30,
-                (value) => tempShortBreak = value,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
               ),
-              const SizedBox(height: 16),
-              _buildSettingSlider(
-                'Long Break',
-                tempLongBreak,
-                5,
-                60,
-                (value) => tempLongBreak = value,
-              ),
-              const SizedBox(height: 16),
-              _buildSettingSlider(
-                'Pomodoros Until Long Break',
-                tempPomodorosUntilLong,
-                2,
-                10,
-                (value) => tempPomodorosUntilLong = value,
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _workDuration = tempWork;
+                    _shortBreakDuration = tempShortBreak;
+                    _longBreakDuration = tempLongBreak;
+                    _pomodorosUntilLongBreak = tempPomodorosUntilLong;
+                    _resetTimer();
+                  });
+                  Navigator.pop(context);
+                },
+                child: const Text('Save'),
               ),
             ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _workDuration = tempWork;
-                _shortBreakDuration = tempShortBreak;
-                _longBreakDuration = tempLongBreak;
-                _pomodorosUntilLongBreak = tempPomodorosUntilLong;
-                _resetTimer();
-              });
-              Navigator.pop(context);
-            },
-            child: const Text('Save'),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -224,30 +232,24 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
     int max,
     Function(int) onChanged,
   ) {
-    return StatefulBuilder(
-      builder: (context, setSliderState) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$label: $value min',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            Slider(
-              value: value.toDouble(),
-              min: min.toDouble(),
-              max: max.toDouble(),
-              divisions: max - min,
-              label: '$value',
-              onChanged: (newValue) {
-                setSliderState(() {
-                  onChanged(newValue.round());
-                });
-              },
-            ),
-          ],
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$label: $value min',
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        Slider(
+          value: value.toDouble(),
+          min: min.toDouble(),
+          max: max.toDouble(),
+          divisions: max - min,
+          label: '$value',
+          onChanged: (newValue) {
+            onChanged(newValue.round());
+          },
+        ),
+      ],
     );
   }
 
