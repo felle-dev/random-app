@@ -13,6 +13,13 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
 
   final List<QuickTile> availableTiles = [
     QuickTile(
+      id: 'lock_screen',
+      title: 'Lock Screen',
+      subtitle: 'Instantly lock your device',
+      icon: Icons.lock_outlined,
+      color: Colors.red,
+    ),
+    QuickTile(
       id: 'volume_control',
       title: 'Volume Control',
       subtitle: 'Quick access to volume settings',
@@ -67,19 +74,37 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
         }
       }
 
+      // Special handling for lock screen tile
+      if (tileId == 'lock_screen' && isActive) {
+        // Check if device admin is enabled
+        final bool deviceAdminEnabled = await _checkDeviceAdmin();
+
+        if (!deviceAdminEnabled) {
+          if (mounted) {
+            _showDeviceAdminDialog();
+          }
+          return;
+        }
+      }
+
       if (isActive) {
         await platform.invokeMethod('addTile', {'tileId': tileId});
         setState(() {
           activeTiles.add(tileId);
         });
         if (mounted) {
+          String message = 'Tile added! Pull down quick settings to see it.';
+          if (tileId == 'screenshot') {
+            message =
+                'Screenshot tile added! Make sure accessibility is enabled.';
+          } else if (tileId == 'lock_screen') {
+            message =
+                'Lock screen tile added! Make sure device admin is enabled.';
+          }
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                tileId == 'screenshot'
-                    ? 'Screenshot tile added! Make sure accessibility is enabled.'
-                    : 'Tile added! Pull down quick settings to see it.',
-              ),
+              content: Text(message),
               action: SnackBarAction(label: 'OK', onPressed: () {}),
             ),
           );
@@ -118,6 +143,16 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
     }
   }
 
+  Future<bool> _checkDeviceAdmin() async {
+    try {
+      final result = await platform.invokeMethod('checkDeviceAdmin');
+      return result as bool? ?? false;
+    } catch (e) {
+      debugPrint('Failed to check device admin: $e');
+      return false;
+    }
+  }
+
   void _showAccessibilityDialog() {
     showDialog(
       context: context,
@@ -151,11 +186,52 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
     );
   }
 
+  void _showDeviceAdminDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.admin_panel_settings),
+            SizedBox(width: 8),
+            Text('Enable Device Admin'),
+          ],
+        ),
+        content: const Text(
+          'Lock screen functionality requires Device Administrator permission. '
+          'Would you like to enable it now?\n\n'
+          'This permission allows the app to lock your device screen.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _openDeviceAdminSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _openAccessibilitySettings() async {
     try {
       await platform.invokeMethod('openAccessibilitySettings');
     } catch (e) {
       debugPrint('Failed to open accessibility settings: $e');
+    }
+  }
+
+  Future<void> _openDeviceAdminSettings() async {
+    try {
+      await platform.invokeMethod('openDeviceAdminSettings');
+    } catch (e) {
+      debugPrint('Failed to open device admin settings: $e');
     }
   }
 
@@ -191,7 +267,15 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
               Text('4. Drag the tiles to your quick settings'),
               SizedBox(height: 16),
               Text(
-                'Note: Screenshot tile requires Accessibility permission (Android 9.0+) and Quick Settings Tiles require Android 7.0+.',
+                'Permissions Required:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text('• Lock Screen: Device Administrator'),
+              Text('• Screenshot: Accessibility (Android 9.0+)'),
+              SizedBox(height: 16),
+              Text(
+                'Note: Quick Settings Tiles require Android 7.0+.',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
               ),
             ],
@@ -226,33 +310,6 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
           : ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                // Info Card
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.dashboard_customize_outlined,
-                        color: theme.colorScheme.onPrimaryContainer,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Add shortcuts to your notification shade for quick access',
-                          style: TextStyle(
-                            color: theme.colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-
                 // Active Tiles Count
                 Text(
                   'Active Tiles: ${activeTiles.length}/${availableTiles.length}',
@@ -290,78 +347,6 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
                             color: theme.colorScheme.outlineVariant,
                           ),
                       ],
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // Accessibility Notice (only show if screenshot tile exists)
-                if (availableTiles.any((tile) => tile.id == 'screenshot'))
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.blue.shade200, width: 1),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.accessibility_new,
-                          color: Colors.blue.shade700,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'Screenshot tile requires Accessibility permission',
-                            style: TextStyle(
-                              color: Colors.blue.shade900,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                const SizedBox(height: 16),
-
-                // Instructions Card
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceVariant,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.lightbulb_outline,
-                            color: theme.colorScheme.primary,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Quick Setup',
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      _buildInstructionStep('1', 'Enable tiles above'),
-                      _buildInstructionStep(
-                        '2',
-                        'Swipe down notification shade',
-                      ),
-                      _buildInstructionStep('3', 'Tap edit/pencil icon'),
-                      _buildInstructionStep(
-                        '4',
-                        'Drag tiles to quick settings',
-                      ),
                     ],
                   ),
                 ),

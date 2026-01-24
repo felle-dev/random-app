@@ -11,349 +11,120 @@ class DeviceGeneratorPage extends StatefulWidget {
 
 class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
   String _generatedDeviceName = '';
-  bool _includeNumbers = true;
-  bool _includeAdjective = true;
-  bool _capitalize = true;
-  String _separator = '';
+  String _selectedBrand = 'Random';
   final List<String> _history = [];
 
-  final List<String> _adjectives = [
-    'Xiaomi',
-    'Redmi',
-    'POCO',
-    'Mi',
-    'Samsung',
-    'Galaxy',
-    'Oppo',
-    'Reno',
-    'Find',
-    'Vivo',
-    'iQOO',
-    'OnePlus',
-    'Nord',
-    'Realme',
-    'Narzo',
-    'Apple',
-    'iPhone',
-    'Google',
-    'Pixel',
-    'Huawei',
-    'Honor',
-    'Nokia',
-    'Motorola',
-    'Moto',
-    'Sony',
-    'Xperia',
-    'Asus',
-    'ROG',
-    'Zenfone',
-    'Lenovo',
-    'Legion',
-    'LG',
-    'HTC',
-    'Meizu',
-    'ZTE',
-    'Nubia',
-    'Tecno',
-    'Infinix',
-    'Itel',
-    'Nothing',
-    'CMF',
-    'BlackBerry',
-    'Sharp',
-    'Panasonic',
-    'Alcatel',
-    'TCL',
-    'Coolpad',
-    'Gionee',
-    'Micromax',
-    'Lava',
-    'Karbonn',
-    'Intex',
-    'Xolo',
-    'Yu',
-    'InFocus',
-    'Wiko',
-    'BLU',
-    'Cat',
-    'Doogee',
-    'Ulefone',
-    'Oukitel',
-    'Blackview',
-    'Umidigi',
-    'Cubot',
-    'Elephone',
-    'Leagoo',
-    'Homtom',
-    'Vernee',
-    'AGM',
-    'Ruggear',
-    'Sonim',
-    'Kyocera',
-    'Casio',
-    'Fujitsu',
-    'NEC',
-    'Fairphone',
-    'Essential',
-    'Razer',
-    'Red',
-    'Magic',
-    'Black',
-    'Shark',
-    'Legion',
-    'HP',
-    'Dell',
-    'Acer',
-    'Toshiba',
-    'Fujitsu',
-    'Pantech',
-    'Fly',
-    'Prestigio',
-    'Explay',
-    'Highscreen',
-    'Vertex',
-    'BQ',
-    'Dexp',
-    'Digma',
-    'Supra',
-    'Texet',
-    'Jinga',
-  ];
-
-  final List<String> _nouns = [
-    'Note',
-    'Pro',
-    'Max',
-    'Plus',
-    'Ultra',
-    'Lite',
-    'Mini',
-    'Prime',
-    'Edge',
-    'Fold',
-    'Flip',
-    'A',
-    'S',
-    'M',
-    'F',
-    'C',
-    'X',
-    'Y',
-    'Z',
-    'G',
-    'K',
-    'V',
-    'T',
-    'P',
-    'R',
-    'One',
-    'Two',
-    'Three',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
-    'Eight',
-    'Nine',
-    'Ten',
-    'Eleven',
-    'Twelve',
-    'SE',
-    'XR',
-    'XS',
-    'Ace',
-    'Neo',
-    'GT',
-    'Turbo',
-    'Power',
-    'Style',
-    'Play',
-    'Go',
-    'View',
-    'Spark',
-    'Pop',
-    'Camon',
-    'Hot',
-    'Smart',
-    'Note',
-    'Pad',
-    'Tab',
-    'Book',
-    'Buds',
-    'Watch',
-    'Band',
-    'Fit',
-    'Active',
-    'Classic',
-    'Standard',
-    'Premium',
-    'Basic',
-    'Essential',
-    'Fusion',
-    'Vision',
-    'Horizon',
-    'Zenith',
-    'Nova',
-    'Star',
-    'Moon',
-    'Sun',
-    'Sky',
-    'Cloud',
-    'Storm',
-    'Breeze',
-    'Wave',
-    'Flow',
-    'Pulse',
-    'Beat',
-    'Rhythm',
-    'Tempo',
-    'Vibe',
-    'Mood',
-    'Soul',
-    'Spirit',
-    'Spark',
-    'Flame',
-    'Blaze',
-    'Flash',
-    'Bolt',
-    'Strike',
-    'Dash',
-    'Rush',
-    'Swift',
-    'Speed',
-    'Pace',
-    'Drive',
-    'Force',
-    'Impact',
-    'Boost',
-    'Charge',
-    'Energy',
-    'Life',
-    'Core',
-    'Zen',
-    'Pure',
-    'Clear',
-    'Bright',
-    'Light',
-    'Shine',
-    'Glow',
-    'Beam',
-    'Ray',
-    'Aura',
-    'Halo',
-    'Crown',
-    'King',
-    'Queen',
-    'Knight',
-    'Master',
-    'Pro',
-    'Expert',
-    'Elite',
-    'Champion',
-    'Hero',
-    'Legend',
-    'Icon',
-    'Symbol',
-    'Mark',
-    'Sign',
-    'Badge',
-    'Tag',
-    'Label',
-    'Brand',
-    'Line',
-    'Series',
-    'Gen',
-    'Edition',
-    'Version',
-    'Model',
-    'Type',
-    'Class',
-    'Grade',
-    'Level',
-    'Tier',
-    'Rank',
-    'Zone',
-    'Realm',
-    'World',
-    'Universe',
-    'Galaxy',
-    'Cosmos',
-    'Space',
-    'Time',
-    'Era',
-    'Age',
-    'Dawn',
-    'Rise',
-    'Peak',
-    'Summit',
-    'Apex',
-    'Top',
-    'Max',
-    'Best',
-    'First',
-    'Prime',
-    'Alpha',
-    'Beta',
-    'Gamma',
-    'Delta',
-    'Omega',
-    'Zero',
-    'Infinity',
-    'Beyond',
-    'Future',
-    'Next',
-    'New',
-    'Fresh',
-    'Modern',
-    'Smart',
-    'Digital',
-    'Tech',
-    'Link',
-    'Connect',
-    'Sync',
-    'Share',
-    'Cast',
-    'Stream',
-    'Live',
-    'Now',
-    'Here',
-    'Go',
-    'Move',
-    'Step',
-    'Jump',
-    'Leap',
-    'Fly',
-    'Soar',
-    'Rise',
-    'Climb',
-    'Reach',
-    'Touch',
-    'Feel',
-    'Sense',
-    'Find',
-    'Seek',
-    'Hunt',
-    'Quest',
-    'Journey',
-    'Path',
-    'Way',
-    'Road',
-    'Trail',
-    'Track',
-    'Route',
-    'Course',
-    'Run',
-    'Race',
-    'Game',
-    'Win',
-    'Victory',
-    'Glory',
-    'Fame',
-    'Star',
-    'Shine',
-  ];
-
-  final List<String> _separators = ['', '_', '-', '.'];
+  // Realistic device naming patterns by brand
+  final Map<String, List<String>> _devicePatterns = {
+    'Samsung': [
+      'Galaxy S24',
+      'Galaxy S24+',
+      'Galaxy S24 Ultra',
+      'Galaxy S23 FE',
+      'Galaxy A54 5G',
+      'Galaxy A34 5G',
+      'Galaxy A15',
+      'Galaxy M54',
+      'Galaxy F54',
+      'Galaxy Z Fold5',
+      'Galaxy Z Flip5',
+      'Galaxy Tab S9',
+      'Galaxy Watch6',
+    ],
+    'Apple': [
+      'iPhone 15 Pro Max',
+      'iPhone 15 Pro',
+      'iPhone 15 Plus',
+      'iPhone 15',
+      'iPhone 14 Pro',
+      'iPhone 14',
+      'iPhone SE',
+      'iPad Pro 12.9',
+      'iPad Air',
+      'iPad mini',
+      'Apple Watch Series 9',
+      'Apple Watch Ultra 2',
+    ],
+    'Xiaomi': [
+      'Xiaomi 14 Pro',
+      'Xiaomi 14',
+      'Xiaomi 13T Pro',
+      'Redmi Note 13 Pro+',
+      'Redmi Note 13 Pro',
+      'Redmi Note 13',
+      'Redmi 13C',
+      'POCO X6 Pro',
+      'POCO F6',
+      'POCO M6 Pro',
+      'Mi Pad 6',
+    ],
+    'Google': [
+      'Pixel 8 Pro',
+      'Pixel 8',
+      'Pixel 8a',
+      'Pixel 7a',
+      'Pixel Fold',
+      'Pixel Tablet',
+      'Pixel Watch 2',
+      'Pixel Buds Pro',
+    ],
+    'OnePlus': [
+      'OnePlus 12',
+      'OnePlus 12R',
+      'OnePlus 11',
+      'OnePlus Nord 3',
+      'OnePlus Nord CE 3',
+      'OnePlus Pad',
+      'OnePlus Watch 2',
+    ],
+    'Oppo': [
+      'Oppo Find X7 Pro',
+      'Oppo Find X6 Pro',
+      'Oppo Reno 11 Pro',
+      'Oppo Reno 11',
+      'Oppo A79 5G',
+      'Oppo A58',
+      'Oppo Pad Air',
+    ],
+    'Vivo': [
+      'Vivo X100 Pro',
+      'Vivo X90 Pro',
+      'Vivo V29 Pro',
+      'Vivo V29',
+      'Vivo Y100',
+      'Vivo Y56',
+      'iQOO 12',
+      'iQOO Neo 9 Pro',
+      'iQOO Z9',
+    ],
+    'Realme': [
+      'Realme GT 5 Pro',
+      'Realme GT 5',
+      'Realme 12 Pro+',
+      'Realme 12 Pro',
+      'Realme 12',
+      'Realme C67',
+      'Realme Narzo 70 Pro',
+    ],
+    'Motorola': [
+      'Motorola Edge 50 Pro',
+      'Motorola Edge 40 Neo',
+      'Moto G84',
+      'Moto G54',
+      'Moto G34',
+      'Motorola Razr 40 Ultra',
+      'Motorola ThinkPhone',
+    ],
+    'Nothing': [
+      'Nothing Phone (2)',
+      'Nothing Phone (2a)',
+      'Nothing Phone (1)',
+      'Nothing Ear (2)',
+      'CMF Phone 1',
+      'CMF Watch Pro',
+      'CMF Buds Pro',
+    ],
+  };
 
   @override
   void initState() {
@@ -363,33 +134,26 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
 
   void _generateDeviceName() {
     final random = Random();
-    String DeviceName = '';
+    String deviceName = '';
 
-    if (_includeAdjective) {
-      String adjective = _adjectives[random.nextInt(_adjectives.length)];
-      if (!_capitalize) adjective = adjective.toLowerCase();
-      DeviceName += adjective;
-    }
-
-    if (_includeAdjective && DeviceName.isNotEmpty) {
-      DeviceName += _separator;
-    }
-
-    String noun = _nouns[random.nextInt(_nouns.length)];
-    if (!_capitalize) noun = noun.toLowerCase();
-    DeviceName += noun;
-
-    if (_includeNumbers) {
-      DeviceName += _separator;
-      DeviceName += (random.nextInt(9000) + 1000).toString();
+    if (_selectedBrand == 'Random') {
+      // Pick a random brand
+      final brands = _devicePatterns.keys.toList();
+      final randomBrand = brands[random.nextInt(brands.length)];
+      final devices = _devicePatterns[randomBrand]!;
+      deviceName = devices[random.nextInt(devices.length)];
+    } else {
+      // Use selected brand
+      final devices = _devicePatterns[_selectedBrand]!;
+      deviceName = devices[random.nextInt(devices.length)];
     }
 
     setState(() {
-      _generatedDeviceName = DeviceName;
+      _generatedDeviceName = deviceName;
       if (_history.length >= 10) {
         _history.removeAt(0);
       }
-      _history.add(DeviceName);
+      _history.add(deviceName);
     });
   }
 
@@ -406,12 +170,14 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final brands = ['Random', ..._devicePatterns.keys.toList()];
+
     return Scaffold(
       appBar: AppBar(title: const Text('Device Name Generator')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Generated DeviceName Section
+          // Generated Device Name Section
           Container(
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -429,7 +195,7 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.person_outline,
+                        Icons.smartphone_outlined,
                         color: theme.colorScheme.primary,
                         size: 20,
                       ),
@@ -453,7 +219,6 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                         _generatedDeviceName,
                         style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'monospace',
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -495,7 +260,7 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
           ),
           const SizedBox(height: 16),
 
-          // Options Section
+          // Brand Selection Section
           Container(
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -520,7 +285,7 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Options',
+                        'Select Brand',
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.primary,
@@ -530,75 +295,23 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                   ),
                 ),
                 Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                SwitchListTile(
-                  title: const Text('Include Adjective'),
-                  subtitle: const Text('Add descriptive word'),
-                  value: _includeAdjective,
-                  onChanged: (value) {
-                    setState(() {
-                      _includeAdjective = value;
-                    });
-                    _generateDeviceName();
-                  },
-                ),
-                Divider(
-                  height: 1,
-                  indent: 16,
-                  endIndent: 16,
-                  color: theme.colorScheme.outlineVariant,
-                ),
-                SwitchListTile(
-                  title: const Text('Include Numbers'),
-                  subtitle: const Text('Add random numbers'),
-                  value: _includeNumbers,
-                  onChanged: (value) {
-                    setState(() {
-                      _includeNumbers = value;
-                    });
-                    _generateDeviceName();
-                  },
-                ),
-                Divider(
-                  height: 1,
-                  indent: 16,
-                  endIndent: 16,
-                  color: theme.colorScheme.outlineVariant,
-                ),
-                SwitchListTile(
-                  title: const Text('Capitalize'),
-                  subtitle: const Text('Use capital letters'),
-                  value: _capitalize,
-                  onChanged: (value) {
-                    setState(() {
-                      _capitalize = value;
-                    });
-                    _generateDeviceName();
-                  },
-                ),
-                Divider(height: 1, color: theme.colorScheme.outlineVariant),
                 Padding(
                   padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Separator', style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        children: _separators.map((sep) {
-                          return ChoiceChip(
-                            label: Text(sep.isEmpty ? 'None' : sep),
-                            selected: _separator == sep,
-                            onSelected: (selected) {
-                              setState(() {
-                                _separator = sep;
-                              });
-                              _generateDeviceName();
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ],
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: brands.map((brand) {
+                      return ChoiceChip(
+                        label: Text(brand),
+                        selected: _selectedBrand == brand,
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedBrand = brand;
+                          });
+                          _generateDeviceName();
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
               ],
@@ -650,8 +363,8 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                     ),
                   ),
                   Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                  ..._history.reversed.map((DeviceName) {
-                    final isLast = DeviceName == _history.reversed.last;
+                  ..._history.reversed.map((deviceName) {
+                    final isLast = deviceName == _history.reversed.last;
                     return Column(
                       children: [
                         Material(
@@ -661,18 +374,15 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                               backgroundColor:
                                   theme.colorScheme.primaryContainer,
                               child: Icon(
-                                Icons.person,
+                                Icons.phone_android,
                                 size: 20,
                                 color: theme.colorScheme.onPrimaryContainer,
                               ),
                             ),
-                            title: Text(
-                              DeviceName,
-                              style: const TextStyle(fontFamily: 'monospace'),
-                            ),
+                            title: Text(deviceName),
                             trailing: IconButton(
                               icon: const Icon(Icons.copy),
-                              onPressed: () => _copyToClipboard(DeviceName),
+                              onPressed: () => _copyToClipboard(deviceName),
                             ),
                           ),
                         ),

@@ -43,6 +43,31 @@
       android:launchMode="singleInstance"
     />
 
+    <!-- Device Admin Receiver for Lock Screen -->
+    <receiver
+      android:name=".DeviceAdminReceiver"
+      android:exported="true"
+      android:permission="android.permission.BIND_DEVICE_ADMIN"
+    >
+      <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
+      <intent-filter>
+        <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+      </intent-filter>
+    </receiver>
+
+    <!-- Lock Screen Tile -->
+    <service
+      android:name=".tiles.LockTileService"
+      android:icon="@mipmap/launcher_icon"
+      android:label="Lock Screen"
+      android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+      android:exported="true"
+    >
+      <intent-filter>
+        <action android:name="android.service.quicksettings.action.QS_TILE" />
+      </intent-filter>
+    </service>
+
     <!-- Volume Control Tile -->
     <service
       android:name=".tiles.VolumeControlTileService"

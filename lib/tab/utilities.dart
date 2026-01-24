@@ -25,28 +25,6 @@ class UtilitiesTab extends StatelessWidget {
             ),
             delegate: SliverChildListDelegate([
               _UtilityCard(
-                title: 'Quick Tiles',
-                subtitle: 'Manage settings',
-                icon: Icons.dashboard_customize_outlined,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    colorScheme.primaryContainer,
-                    colorScheme.primaryContainer.withOpacity(0.7),
-                  ],
-                ),
-                iconColor: colorScheme.onPrimaryContainer,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const QuickTilesPage(),
-                    ),
-                  );
-                },
-              ),
-              _UtilityCard(
                 title: 'Pomodoro',
                 subtitle: 'Focus timer',
                 icon: Icons.timer_outlined,
@@ -112,6 +90,28 @@ class UtilitiesTab extends StatelessWidget {
                   );
                 },
               ),
+              _UtilityCard(
+                title: 'Quick Tiles',
+                subtitle: 'Manage settings',
+                icon: Icons.dashboard_customize_outlined,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.primaryContainer,
+                    colorScheme.primaryContainer.withOpacity(0.7),
+                  ],
+                ),
+                iconColor: colorScheme.onPrimaryContainer,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuickTilesPage(),
+                    ),
+                  );
+                },
+              ),
             ]),
           ),
         ),
@@ -162,9 +162,7 @@ class _UtilityCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  child: Icon(icon, size: 48, color: iconColor),
-                ),
+                Container(child: Icon(icon, size: 48, color: iconColor)),
                 const Spacer(),
                 Text(
                   title,

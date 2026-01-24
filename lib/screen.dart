@@ -77,6 +77,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               backgroundColor: theme.colorScheme.surface,
               foregroundColor: theme.colorScheme.onSurface,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.info_outline),
+                  onPressed: () => _showAboutDialog(context),
+                  tooltip: 'About',
+                ),
+              ],
             ),
           ];
         },
@@ -90,6 +97,52 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomFloatingNavBar(
         currentIndex: _navIndex,
         onTap: _onNavTap,
+      ),
+    );
+  }
+
+  void _showAboutDialog(BuildContext context) {
+    final theme = Theme.of(context);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('About Random Tools'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'A comprehensive collection of random generators and utilities for your everyday needs.',
+              style: theme.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Generate numbers, flip coins, roll dice, pick names, and explore many more randomization tools.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+          FilledButton.icon(
+            onPressed: () {
+              Navigator.pop(context);
+              showLicensePage(
+                context: context,
+                applicationName: 'Random Tools',
+                applicationVersion: '1.0.0',
+              );
+            },
+            icon: const Icon(Icons.description_outlined, size: 18),
+            label: const Text('Licenses'),
+          ),
+        ],
       ),
     );
   }

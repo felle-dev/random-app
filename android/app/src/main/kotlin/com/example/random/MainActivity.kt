@@ -1,5 +1,6 @@
 package com.example.random
 
+import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -11,9 +12,17 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.random.app/quick_tiles"
+    private val DEVICE_ADMIN_REQUEST = 1001
+    
+    private lateinit var devicePolicyManager: DevicePolicyManager
+    private lateinit var adminComponent: ComponentName
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        
+        // Initialize device admin components
+        devicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        adminComponent = ComponentName(this, DeviceAdminReceiver::class.java)
         
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
@@ -43,6 +52,10 @@ class MainActivity : FlutterActivity() {
                     val isEnabled = isAccessibilityServiceEnabled(this)
                     result.success(isEnabled)
                 }
+                "checkDeviceAdmin" -> {
+                    val isActive = devicePolicyManager.isAdminActive(adminComponent)
+                    result.success(isActive)
+                }
                 "openAccessibilitySettings" -> {
                     try {
                         val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
@@ -52,6 +65,10 @@ class MainActivity : FlutterActivity() {
                     } catch (e: Exception) {
                         result.error("ERROR", e.message, null)
                     }
+                }
+                "openDeviceAdminSettings" -> {
+                    requestDeviceAdmin()
+                    result.success(null)
                 }
                 else -> {
                     result.notImplemented()
@@ -63,6 +80,7 @@ class MainActivity : FlutterActivity() {
     private fun getActiveTiles(): List<String> {
         val activeTiles = mutableListOf<String>()
         val tileMap = mapOf(
+            "lock_screen" to ".tiles.LockTileService",
             "volume_control" to ".tiles.VolumeControlTileService",
             "screenshot" to ".tiles.ScreenshotTileService",
         )
@@ -81,6 +99,7 @@ class MainActivity : FlutterActivity() {
 
     private fun enableTile(tileId: String, enable: Boolean) {
         val serviceNameMap = mapOf(
+            "lock_screen" to ".tiles.LockTileService",
             "volume_control" to ".tiles.VolumeControlTileService",
             "screenshot" to ".tiles.ScreenshotTileService",
         )
@@ -107,5 +126,26 @@ class MainActivity : FlutterActivity() {
             Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
         )
         return enabledServices?.contains(service) == true
+    }
+
+    private fun requestDeviceAdmin() {
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent)
+        intent.putExtra(
+            DevicePolicyManager.EXTRA_ADD_EXPLANATION,
+            "This permission is required to lock your screen from the quick settings tile"
+        )
+        startActivityForResult(intent, DEVICE_ADMIN_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        
+        when (requestCode) {
+            DEVICE_ADMIN_REQUEST -> {
+                // Device admin request completed
+                // You can show a message or update UI if needed
+            }
+        }
     }
 }
