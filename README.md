@@ -26,7 +26,7 @@
 - **Password Generator** – Create strong, customizable passwords with various options
 - **Email Generator** – Generate random email addresses for testing
 - **Username Generator** – Create unique usernames instantly
-- **Phone Generator** – Generate fake phone numbers from 22+ countries (US, UK, Canada, Germany, France, Japan, Indonesia, and more)
+- **Phone Generator** – Generate fake phone numbers
 - **Device Name Generator** – Random device names for privacy
 - **Identity Generator** – Complete fake identities for testing forms
 
@@ -38,7 +38,7 @@
 
 ### **Utilities**
 - **EXIF Eraser** – Remove metadata from photos to protect your privacy
-- **Quick Tiles** – Manage device settings quickly
+- **Quick Tiles** – Add tile for screenshot, media volume, and lock screen
 - **Unit Converter** – Convert between different units
 - **Device Info** – View detailed device and battery information
 
