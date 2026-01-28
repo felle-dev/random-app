@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.BatteryManager
-import android.os.Build
 import android.provider.Settings
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -89,6 +88,7 @@ class MainActivity : FlutterActivity() {
             "lock_screen" to ".tiles.LockTileService",
             "volume_control" to ".tiles.VolumeControlTileService",
             "screenshot" to ".tiles.ScreenshotTileService",
+            "caffeine" to ".tiles.CaffeineTileService",
         )
 
         val packageManager = packageManager
@@ -108,6 +108,7 @@ class MainActivity : FlutterActivity() {
             "lock_screen" to ".tiles.LockTileService",
             "volume_control" to ".tiles.VolumeControlTileService",
             "screenshot" to ".tiles.ScreenshotTileService",
+            "caffeine" to ".tiles.CaffeineTileService",
         )
 
         val serviceName = serviceNameMap[tileId] ?: return

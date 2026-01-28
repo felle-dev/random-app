@@ -94,7 +94,7 @@ class GeneratorsTab extends StatelessWidget {
               ),
               _GeneratorCard(
                 title: 'Device Name',
-                subtitle: 'Random network names',
+                subtitle: 'Random device',
                 icon: Icons.phone_android_outlined,
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,

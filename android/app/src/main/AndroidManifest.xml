@@ -3,12 +3,14 @@
   <uses-permission android:name="android.permission.VIBRATE" />
   <uses-permission android:name="android.permission.BROADCAST_STICKY" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
   <uses-permission android:name="android.permission.BATTERY_STATS" />
   <uses-permission android:name="android.permission.ACCESS_BATTERY_INFO" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
 
   <application
     android:label="Random"
@@ -79,7 +81,7 @@
     <!-- Lock Screen Tile -->
     <service
       android:name=".tiles.LockTileService"
-      android:icon="@mipmap/launcher_icon"
+      android:icon="@android:drawable/ic_lock_lock"
       android:label="Lock Screen"
       android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
       android:exported="true"
@@ -92,7 +94,7 @@
     <!-- Volume Control Tile -->
     <service
       android:name=".tiles.VolumeControlTileService"
-      android:icon="@mipmap/launcher_icon"
+      android:icon="@android:drawable/ic_lock_silent_mode_off"
       android:label="Volume Control"
       android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
       android:exported="true"
@@ -107,7 +109,7 @@
       android:name=".tiles.ScreenshotTileService"
       android:enabled="true"
       android:exported="true"
-      android:icon="@mipmap/launcher_icon"
+      android:icon="@android:drawable/ic_menu_camera"
       android:label="Screenshot"
       android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
     >
@@ -115,6 +117,26 @@
         <action android:name="android.service.quicksettings.action.QS_TILE" />
       </intent-filter>
     </service>
+
+    <!-- Caffeine Tile -->
+    <service
+      android:name=".tiles.CaffeineTileService"
+      android:exported="true"
+      android:icon="@android:drawable/ic_lock_idle_alarm"
+      android:label="Caffeine"
+      android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+    >
+      <intent-filter>
+        <action android:name="android.service.quicksettings.action.QS_TILE" />
+      </intent-filter>
+    </service>
+
+    <!-- Caffeine Foreground Service -->
+    <service
+      android:name=".tiles.CaffeineService"
+      android:exported="false"
+      android:foregroundServiceType="specialUse"
+    />
 
     <!-- Accessibility Service for Lock Screen -->
     <service

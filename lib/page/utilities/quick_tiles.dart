@@ -33,6 +33,13 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
       icon: Icons.screenshot_outlined,
       color: Colors.blue,
     ),
+    QuickTile(
+      id: 'caffeine',
+      title: 'Caffeine',
+      subtitle: 'Keep screen awake',
+      icon: Icons.coffee_outlined,
+      color: Colors.orange,
+    ),
   ];
 
   Set<String> activeTiles = {};

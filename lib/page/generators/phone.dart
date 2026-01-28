@@ -62,16 +62,6 @@ class _PhoneGeneratorPageState extends State<PhoneGeneratorPage> {
     });
   }
 
-  void _copyPhone() {
-    Clipboard.setData(ClipboardData(text: _phoneFormat));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Phone number copied!'),
-        duration: Duration(seconds: 1),
-      ),
-    );
-  }
-
   void _copyPhoneOnly() {
     Clipboard.setData(ClipboardData(text: _generatedPhone));
     ScaffoldMessenger.of(context).showSnackBar(
