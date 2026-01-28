@@ -409,7 +409,7 @@ class _RandomIdentityGeneratorPageState
     final emailName =
         '${firstName.toLowerCase()}.${lastName.toLowerCase()}${random.nextInt(999)}';
     final emailDomain = _emailDomains[random.nextInt(_emailDomains.length)];
-    final email = '$emailName@$emailDomain';
+    final email = '$emailName$emailDomain';
 
     // Generate username
     final username =
