@@ -9,6 +9,9 @@ import 'package:random/widgets/custom_floating_nav_bar.dart';
 import 'package:random/utils/language_provider.dart';
 import 'package:provider/provider.dart';
 
+/// Main screen that hosts the tabbed navigation interface. 
+/// Displays three main sections: Generators, Utilities, and Games,
+/// accessible through a floating navigation bar and swipeable pages.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -32,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  /// Returns the appropriate title based on the currently selected tab.
   String get _currentTitle {
     switch (_navIndex) {
       case 0:
@@ -45,10 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// Updates the navigation index when the page is swiped.
   void _onPageChanged(int index) {
     setState(() => _navIndex = index);
   }
 
+  /// Animates to the selected page when a navigation item is tapped.
   void _onNavTap(int index) {
     _pageController.animateToPage(
       index,
@@ -183,6 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /// Displays a dialog with app information and license details.
   void _showAboutDialog(BuildContext context) {
     final theme = Theme.of(context);
 
