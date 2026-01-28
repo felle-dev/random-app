@@ -1,6 +1,8 @@
 # **Random**
 *A privacy-focused utility app for generating secure passwords, random identities, fake data, and more—built with Flutter. Perfect for testing, development, and maintaining your privacy online.*
 
+*This app i create for my personal use, and i kinda create it for like an all-in-one app for random stuffs, so i don't know if it gonna be useful for you, but if it is, you can use it :)*
+
 [![Latest release](https://img.shields.io/github/v/release/felle-dev/random-app?style=for-the-badge)](https://github.com/felle-dev/random-app/releases)
 [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 [![License](https://img.shields.io/github/license/felle-dev/random-app?style=for-the-badge)](LICENSE)
