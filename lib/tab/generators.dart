@@ -38,6 +38,11 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
     final colorScheme = Theme.of(context).colorScheme;
     final shouldLoadPinned = _generators.isEmpty;
 
+    final Map<String, bool> pinnedState = {};
+    for (var generator in _generators) {
+      pinnedState[generator.id] = generator.isPinned;
+    }
+
     _generators = [
       GeneratorItem(
         id: 'password',
@@ -96,6 +101,12 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
         pageBuilder: () => const LoremIpsumGeneratorPage(),
       ),
     ];
+
+    for (var generator in _generators) {
+      if (pinnedState.containsKey(generator.id)) {
+        generator.isPinned = pinnedState[generator.id]!;
+      }
+    }
 
     if (shouldLoadPinned) {
       _loadPinnedState();

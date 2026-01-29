@@ -137,4 +137,39 @@ class AppStrings {
   static const String emailGeneratorTitle = 'Email Generator';
   static const String generatedEmailTitle = 'Generated Email';
   static const String emailDomain = 'Email Domain';
+
+  // Device/WiFi Generator
+  static const String deviceGeneratorTitle = 'WiFi Name Generator';
+  static const String generatedWifiName = 'Generated WiFi Name';
+  static const String selectCategory = 'Select Category';
+
+  // Password Generator
+  static const String passwordGeneratorTitle = 'Password Generator';
+  static const String generatedPassword = 'Generated Password';
+  static const String strength = 'Strength';
+  static const String length = 'Length';
+  static const String uppercaseLetters = 'Uppercase Letters (A-Z)';
+  static const String uppercaseSubtitle = 'Include capital letters';
+  static const String lowercaseLetters = 'Lowercase Letters (a-z)';
+  static const String lowercaseSubtitle = 'Include lowercase letters';
+  static const String numbersLabel = 'Numbers (0-9)';
+  static const String numbersSubtitle = 'Include numeric digits';
+  static const String symbolsLabel = 'Symbols (!@#\$...)';
+  static const String symbolsSubtitle = 'Include special characters';
+  static const String copiedPassword = 'Copied password to clipboard';
+
+  // Password Strength
+  static const String veryStrong = 'Very Strong';
+  static const String strong = 'Strong';
+  static const String medium = 'Medium';
+  static const String weak = 'Weak';
+
+  // Phone Generator
+  static const String phoneGeneratorTitle = 'Phone Generator';
+  static const String generatedPhone = 'Generated Phone';
+  static const String selectCountry = 'Select Country';
+  static const String withCode = 'With Code';
+  static const String copyWithoutCode = 'Copy Without Code';
+  static const String copiedWithCode = 'Copied with country code';
+  static const String copiedWithoutCode = 'Copied without country code';
 }
