@@ -216,16 +216,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
     return theme.colorScheme.error;
   }
 
-  void _copyField(String value) {
-    Clipboard.setData(ClipboardData(text: value));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Copied: $value'),
-        duration: const Duration(seconds: 1),
-      ),
-    );
-  }
-
   void _copyAllDeviceInfo() {
     final allData = _deviceData.entries
         .map((e) => '${e.key}: ${e.value}')
@@ -500,10 +490,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.copy, size: 18),
-                          onPressed: () => _copyField(entry.value),
                         ),
                       ),
                       if (entry.key != _deviceData.entries.last.key)
