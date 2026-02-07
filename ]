@@ -33,24 +33,16 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Build the list to get correct colors from theme
-    _buildGeneratorsList();
-    
-    // Only load pinned state once
+    // Only build generators list once and load pinned state after
     if (!_isInitialized) {
-      _loadPinnedState(); // Load pinned state AFTER building the list
+      _buildGeneratorsList();
+      _loadPinnedState(); // ✅ Load pinned state AFTER building the list
       _isInitialized = true;
     }
   }
 
   void _buildGeneratorsList() {
     final colorScheme = Theme.of(context).colorScheme;
-
-    // Store current pinned state before rebuilding
-    final Map<String, bool> pinnedState = {};
-    for (var generator in _generators) {
-      pinnedState[generator.id] = generator.isPinned;
-    }
 
     _generators = [
       GeneratorItem(
@@ -110,13 +102,6 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
         pageBuilder: () => const LoremIpsumGeneratorPage(),
       ),
     ];
-
-    // Restore pinned state after rebuilding list
-    for (var generator in _generators) {
-      if (pinnedState.containsKey(generator.id)) {
-        generator.isPinned = pinnedState[generator.id]!;
-      }
-    }
   }
 
   Future<void> _loadPinnedState() async {
