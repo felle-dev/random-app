@@ -136,8 +136,8 @@ class MainActivity : FlutterActivity() {
         tileMap.forEach { (tileId, serviceName) ->
             val componentName = ComponentName(this, "${packageName}${serviceName}")
             val state = packageManager.getComponentEnabledSetting(componentName)
-            if (state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED ||
-                state == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) {
+            // Only add if EXPLICITLY enabled (remove the DEFAULT check)
+            if (state == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
                 activeTiles.add(tileId)
             }
         }

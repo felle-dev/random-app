@@ -240,4 +240,90 @@ class AppStrings {
   static const String exifEraserShareText = 'Image with EXIF data removed';
   static const String exifEraserUseDownload = 'Use save/download for web';
   static const String exifEraserErrorParse = 'Could not parse EXIF data';
+
+  // Add these strings to the AppStrings class in config/app_strings.dart
+
+  // Device Info
+  static const String deviceInfoTitle = 'Device Info';
+  static const String deviceInfoBatteryHealth = 'Battery Health';
+  static const String deviceInfoDeviceInformation = 'Device Information';
+  static const String deviceInfoCopyAll = 'Copy All';
+  static const String deviceInfoRefresh = 'Refresh Info';
+  static const String deviceInfoCopied = 'Device info copied!';
+
+  // Battery Info
+  static const String deviceInfoBatteryLevel = 'Battery Level';
+  static const String deviceInfoBatteryState = 'Battery State';
+  static const String deviceInfoHealthStatus = 'Health Status';
+  static const String deviceInfoChargingCycles = 'Charging Cycles';
+
+  // Battery States
+  static const String deviceInfoBatteryCharging = 'Charging';
+  static const String deviceInfoBatteryFull = 'Full';
+  static const String deviceInfoBatteryDischarging = 'Discharging';
+  static const String deviceInfoBatteryUnknown = 'Unknown';
+
+  // Battery Health
+  static const String deviceInfoHealthGood = 'Good';
+  static const String deviceInfoHealthFair = 'Fair';
+  static const String deviceInfoHealthLow = 'Low';
+  static const String deviceInfoHealthCritical = 'Critical';
+
+  // Platform Messages
+  static const String deviceInfoBatteryNotAvailable =
+      'Battery information is not available on this platform.';
+  static const String deviceInfoErrorPrefix = 'Failed to get device info: ';
+  static const String deviceInfoBatteryError =
+      'Battery info not available on this platform';
+
+  // Android Device Fields
+  static const String deviceInfoBrand = 'Brand';
+  static const String deviceInfoModel = 'Model';
+  static const String deviceInfoDevice = 'Device';
+  static const String deviceInfoManufacturer = 'Manufacturer';
+  static const String deviceInfoProduct = 'Product';
+  static const String deviceInfoAndroidVersion = 'Android Version';
+  static const String deviceInfoSdkVersion = 'SDK Version';
+  static const String deviceInfoSecurityPatch = 'Security Patch';
+  static const String deviceInfoBoard = 'Board';
+  static const String deviceInfoHardware = 'Hardware';
+  static const String deviceInfoSupportedAbis = 'Supported ABIs';
+  static const String deviceInfoIsPhysicalDevice = 'Is Physical Device';
+
+  // iOS Device Fields
+  static const String deviceInfoName = 'Name';
+  static const String deviceInfoSystemName = 'System Name';
+  static const String deviceInfoSystemVersion = 'System Version';
+  static const String deviceInfoLocalModel = 'Local Model';
+  static const String deviceInfoIdentifier = 'Identifier';
+
+  // Windows Device Fields
+  static const String deviceInfoComputerName = 'Computer Name';
+  static const String deviceInfoNumberOfCores = 'Number of Cores';
+  static const String deviceInfoSystemMemory = 'System Memory (GB)';
+  static const String deviceInfoProductName = 'Product Name';
+  static const String deviceInfoDisplayVersion = 'Display Version';
+  static const String deviceInfoPlatformId = 'Platform ID';
+  static const String deviceInfoMajorVersion = 'Major Version';
+  static const String deviceInfoMinorVersion = 'Minor Version';
+  static const String deviceInfoBuildNumber = 'Build Number';
+
+  // Linux Device Fields
+  static const String deviceInfoVersion = 'Version';
+  static const String deviceInfoId = 'ID';
+  static const String deviceInfoIdLike = 'ID Like';
+  static const String deviceInfoVersionCodename = 'Version Codename';
+  static const String deviceInfoVersionId = 'Version ID';
+  static const String deviceInfoPrettyName = 'Pretty Name';
+  static const String deviceInfoBuildId = 'Build ID';
+  static const String deviceInfoVariant = 'Variant';
+  static const String deviceInfoVariantId = 'Variant ID';
+  static const String deviceInfoMachineId = 'Machine ID';
+
+  // macOS Device Fields
+  static const String deviceInfoHostName = 'Host Name';
+  static const String deviceInfoKernelVersion = 'Kernel Version';
+  static const String deviceInfoOsRelease = 'OS Release';
+  static const String deviceInfoPatchVersion = 'Patch Version';
+  static const String deviceInfoSystemGuid = 'System GUID';
 }
